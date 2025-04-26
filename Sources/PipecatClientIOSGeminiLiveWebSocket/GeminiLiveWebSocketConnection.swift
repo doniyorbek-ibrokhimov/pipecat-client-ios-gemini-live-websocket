@@ -18,7 +18,6 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
     
     struct Options {
         let apiKey: String
-        let initialMessages: [WebSocketMessages.Outbound.TextInput]
         let generationConfig: Value?
     }
     
@@ -40,7 +39,9 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
             delegate: self,
             delegateQueue: OperationQueue()
         )
-        let host = "preprod-generativelanguage.googleapis.com"
+        
+//        wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent
+        let host = "generativelanguage.googleapis.com"
         let url = URL(string: "wss://\(host)/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=\(options.apiKey)")
         let socket = urlSession.webSocketTask(with: url!)
         self.socket = socket
@@ -50,20 +51,17 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
         socket.resume()
         
         // Send initial setup message
-        let model = "models/gemini-2.0-flash-exp" // TODO: make this configurable someday
+        let model = "models/gemini-2.0-flash-live-001" // TODO: make this configurable someday
         try await sendMessage(
             message: WebSocketMessages.Outbound.Setup(
                 model: model,
-                generationConfig: options.generationConfig
+                generationConfig: .init(responseModalities: [.audio], speechConfig: .init(voiceConfig: .init(prebuiltVoiceConfig: .init(voiceName: "Puck")), languageCode: "es-US")),
+                systemInstruction: .init(parts: [
+                    .init(thought: false, text: "You are a fitness trainer")
+                ], role: "model")
             )
         )
         try Task.checkCancellation()
-        
-        // Send initial context messages
-        for message in options.initialMessages {
-            try await sendMessage(message: message)
-            try Task.checkCancellation()
-        }
         
         // Listen for server messages
         Task {

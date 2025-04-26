@@ -5,7 +5,6 @@ extension RTVIClientOptions {
         let config = config ?? params.config
         return .init(
             apiKey: config.apiKey ?? "",
-            initialMessages: config.initialMessages,
             generationConfig: config.generationConfig
         )
     }
@@ -18,11 +17,6 @@ extension [ServiceConfig] {
             return apiKey
         }
         return nil
-    }
-    
-    var initialMessages: [WebSocketMessages.Outbound.TextInput] {
-        let initialMessagesKeyOption = llmConfig?.options.first { $0.name == "initial_messages" }
-        return initialMessagesKeyOption?.value.toTextInputWebSocketMessagesArray() ?? []
     }
     
     var generationConfig: Value? {

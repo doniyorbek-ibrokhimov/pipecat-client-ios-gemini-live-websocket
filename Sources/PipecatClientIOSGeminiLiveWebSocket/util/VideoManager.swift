@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 
 final class VideoManager {
     
@@ -31,14 +32,14 @@ final class VideoManager {
         // https://forums.developer.apple.com/forums/thread/738346
         // If the current iOS version is greater than 17, we are applying a workaround to fix it
 #if targetEnvironment(simulator)
-        if UIDevice.current.systemVersion.compare("17", options: .numeric) == .orderedDescending {
-            Logger.shared.info("Applying workaround for iOS 17 simulator")
-            do {
-                try self.audioSession.setActive(true)
-            } catch let error {
-                Logger.shared.error("Error when applying workaroung for iOS 17 simulator: \(error)")
-            }
-        }
+//        if UIDevice.current.systemVersion.compare("17", options: .numeric) == .orderedDescending {
+//            Logger.shared.info("Applying workaround for iOS 17 simulator")
+//            do {
+//                try self.audioSession.setActive(true)
+//            } catch let error {
+//                Logger.shared.error("Error when applying workaroung for iOS 17 simulator: \(error)")
+//            }
+//        }
 #endif
         
         self.notificationCenter = notificationCenter
