@@ -120,6 +120,7 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
                         break
                     }
                     // Otherwise wait a smidge and loop again
+                    print("waiting...")
                     try? await Task.sleep(nanoseconds: 250_000_000)
                 }
             }
@@ -170,7 +171,7 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
         webSocketTask: URLSessionWebSocketTask,
         didOpenWithProtocol protocol: String?
     ) {
-//        print("web socket opened!")
+       print("web socket opened!")
     }
     
     func urlSession(
@@ -179,7 +180,10 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
         didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
         reason: Data?
     ) {
-//        print("web socket closed! close code \(closeCode)")
+       print("web socket closed! close code \(closeCode)")
+        if let reason {
+            print("reason: \(String(data: reason, encoding: .utf8) ?? "")")
+        }
         socket = nil
         didFinishConnect = false
     }

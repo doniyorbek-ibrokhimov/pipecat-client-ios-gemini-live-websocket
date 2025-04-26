@@ -18,6 +18,8 @@ class VideoRecorder: NSObject{
     public weak var delegate: VideoRecorderDelegate?
 
     private let sessionQueue = DispatchQueue(label: "SessionQueue")
+    private var lastFrameSent = Date()
+    private let minFrameInterval: TimeInterval = 0.1 // 10 FPS max
 
     var isRecording: Bool {
         captureSession?.isRunning ?? false
@@ -121,11 +123,15 @@ extension VideoRecorder: AVCaptureVideoDataOutputSampleBufferDelegate {
         let context = CIContext()
         guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return }
         let uiImage = UIImage(cgImage: cgImage)
-        guard let jpegData = uiImage.jpegData(compressionQuality: 0.7) else { return }
+        guard let jpegData = uiImage.jpegData(compressionQuality: 0.3) else { return }
 
         // Notify delegate about frame size (optional)
         delegate?.videoRecorder(self, didGetFrameWithSize: uiImage.size)
 
-        streamContinuation?.yield(jpegData)
+        // Only yield frames at appropriate intervals
+        if Date().timeIntervalSince(lastFrameSent) >= minFrameInterval {
+            streamContinuation?.yield(jpegData)
+            lastFrameSent = Date()
+        }
     }
 }

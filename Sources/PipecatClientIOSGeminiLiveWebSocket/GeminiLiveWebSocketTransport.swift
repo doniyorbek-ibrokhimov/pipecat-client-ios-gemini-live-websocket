@@ -162,12 +162,16 @@ public class GeminiLiveWebSocketTransport: Transport {
     
     public func enableCam(enable: Bool) async throws {
         //FIXME: implement
-        logOperationNotSupported(#function)
+//        if enable {
+//            try videoRecorder.resume()
+//        } else {
+//            videoRecorder.pause()
+//        }
     }
     
     public func isCamEnabled() -> Bool {
         //FIXME: implement
-        logOperationNotSupported(#function)
+//        videoRecorder.isRecording
         return false
     }
     
