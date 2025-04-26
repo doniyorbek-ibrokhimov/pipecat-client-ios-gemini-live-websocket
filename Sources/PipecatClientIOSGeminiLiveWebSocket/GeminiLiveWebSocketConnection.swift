@@ -140,7 +140,13 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
     }
     
     func sendUserVideo(_ video: Data) async throws {
-        //FIXME: implement
+        //FIXME: + implement
+        if !didFinishConnect {
+            return
+        }
+        try await sendMessage(
+            message: WebSocketMessages.Outbound.VideoInput(video: video)
+        )
     }
     
     func sendMessage(message: Encodable) async throws {

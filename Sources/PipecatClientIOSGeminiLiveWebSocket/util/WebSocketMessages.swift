@@ -134,7 +134,7 @@ enum WebSocketMessages {
                 realtimeInput = .init(
                     mediaChunks: [
                         .init(
-                            mimeType: "video/avc1.64001e;level=31;profile=66;framerate=30;width=1280;height=720",
+                            mimeType: "image/jpeg",
                             data: video.base64EncodedString()
                         )
                     ]

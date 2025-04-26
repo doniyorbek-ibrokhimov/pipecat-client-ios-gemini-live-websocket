@@ -57,8 +57,9 @@ public class GeminiLiveWebSocketTransport: Transport {
         audioRecorder.stop()
         audioRecorder.terminateAudioStream()
         
-        // stop audio player
-        audioPlayer.stop()
+        // stop video input and terminate stream
+        videoRecorder.stop()
+        videoRecorder.terminateVideoStream()
         
         // stop managing audio device configuration and reset mic bookkeeping
         audioManager.stopManaging()
@@ -75,6 +76,9 @@ public class GeminiLiveWebSocketTransport: Transport {
         // this is done before connecting WebSocket to guarantee that by the time we transition to the .connected state isMicEnabled() reflects the truth
         if options.enableMic {
             try audioRecorder.resume()
+        }
+        if options.enableCam {
+            try videoRecorder.resume()
         }
         
         // start connecting
@@ -100,6 +104,9 @@ public class GeminiLiveWebSocketTransport: Transport {
         // stop audio input
         // (why not just pause it? to avoid problems in case the user forgets to call release() before instantiating a new voice client)
         audioRecorder.stop()
+        
+        // stop video input
+        videoRecorder.stop()
         
         // stop audio player
         audioPlayer.stop()
@@ -262,7 +269,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     private let videoManager = VideoManager()
     private let audioPlayer = AudioPlayer()
     private let audioRecorder = AudioRecorder()
-    //FIXME: implement videoRecorder
+    private let videoRecorder = VideoRecorder()
     private var connectedBotParticipant = Participant(
         id: ParticipantId(id: UUID().uuidString),
         name: "Gemini Multimodal Live",
@@ -288,7 +295,15 @@ public class GeminiLiveWebSocketTransport: Transport {
     }
     
     private func hookUpVideoInputStream() {
-        //FIXME: implement
+        Task {
+            for await videoChunk in videoRecorder.streamVideo() {
+                do {
+                    try await connection.sendUserVideo(videoChunk)
+                } catch {
+                    Logger.shared.warn("Send user video failed: \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     private func logUnsupportedOptions() {
@@ -340,6 +355,11 @@ public class GeminiLiveWebSocketTransport: Transport {
             try audioRecorder.adaptToDeviceChange()
         } catch {
             Logger.shared.error("Audio recorder failed to adapt to device change")
+        }
+        do {
+            try videoRecorder.adaptToDeviceChange()
+        } catch {
+            Logger.shared.error("Video recorder failed to adapt to device change")
         }
     }
     
