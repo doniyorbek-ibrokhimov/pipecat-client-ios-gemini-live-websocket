@@ -190,48 +190,40 @@ enum WebSocketMessages {
             var realtimeInput: RealtimeInput
             
             struct RealtimeInput: Encodable {
-                var mediaChunks: [MediaChunk]
+                var audio: Blob
                 
-                struct MediaChunk: Encodable {
+                struct Blob: Encodable {
                     var mimeType: String
                     var data: String
                 }
             }
             
             init(audio: Data) {
-                realtimeInput = .init(
-                    mediaChunks: [
-                        .init(
-                            mimeType: "audio/pcm;rate=\(Int(AudioCommon.serverAudioFormat.sampleRate))",
-                            data: audio.base64EncodedString()
-                        )
-                    ]
-                )
+                realtimeInput = .init(audio: .init(
+                    mimeType: "audio/pcm;rate=\(Int(AudioCommon.serverAudioFormat.sampleRate))",
+                    data: audio.base64EncodedString()
+                ))
             }
         }
         
-        //FIXME: + implement VideoInput
+        
         struct VideoInput: Encodable {
             var realtimeInput: RealtimeInput
             
             struct RealtimeInput: Encodable {
-                var mediaChunks: [MediaChunk]
+                var video: Blob
                 
-                struct MediaChunk: Encodable {
+                struct Blob: Encodable {
                     var mimeType: String
                     var data: String
                 }
             }
             
             init(video: Data) {
-                realtimeInput = .init(
-                    mediaChunks: [
-                        .init(
-                            mimeType: "image/jpeg",
-                            data: video.base64EncodedString()
-                        )
-                    ]
-                )
+                realtimeInput = .init(video: .init(
+                    mimeType: "image/jpeg",
+                    data: video.base64EncodedString()
+                ))
             }
         }
     }
