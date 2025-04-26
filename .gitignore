@@ -1,3 +1,4 @@
 /.swiftpm/xcode/xcuserdata
 /.swiftpm/xcode/package.xcworkspace/xcuserdata
 /tmpDocs
+/.build
