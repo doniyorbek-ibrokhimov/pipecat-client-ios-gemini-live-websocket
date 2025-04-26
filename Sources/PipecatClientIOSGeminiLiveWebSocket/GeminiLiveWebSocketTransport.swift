@@ -118,6 +118,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     }
     
     public func getAllCams() -> [PipecatClientIOS.MediaDeviceInfo] {
+        //FIXME: implement
         logOperationNotSupported(#function)
         return []
     }
@@ -130,6 +131,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     }
     
     public func updateCam(camId: PipecatClientIOS.MediaDeviceId) async throws {
+        //FIXME: implement
         logOperationNotSupported(#function)
     }
     
@@ -152,10 +154,12 @@ public class GeminiLiveWebSocketTransport: Transport {
     }
     
     public func enableCam(enable: Bool) async throws {
+        //FIXME: implement
         logOperationNotSupported(#function)
     }
     
     public func isCamEnabled() -> Bool {
+        //FIXME: implement
         logOperationNotSupported(#function)
         return false
     }
@@ -235,6 +239,7 @@ public class GeminiLiveWebSocketTransport: Transport {
         return .init(
             local: .init(
                 audio: localAudioTrackID,
+                //FIXME: implement
                 video: nil // video not yet supported
             ),
             bot: .init(
@@ -257,6 +262,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     private let videoManager = VideoManager()
     private let audioPlayer = AudioPlayer()
     private let audioRecorder = AudioRecorder()
+    //FIXME: implement videoRecorder
     private var connectedBotParticipant = Participant(
         id: ParticipantId(id: UUID().uuidString),
         name: "Gemini Multimodal Live",
@@ -287,6 +293,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     
     private func logUnsupportedOptions() {
         if options.enableCam {
+            //FIXME: implement
             logOperationNotSupported("enableCam option")
         }
         if !options.services.isEmpty {
