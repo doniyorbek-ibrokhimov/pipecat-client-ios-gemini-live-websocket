@@ -13,9 +13,10 @@ public class GeminiLiveWebSocketTransport: Transport {
     /// RTVI inbound message handler (for sending RTVI-style messages to voice client code to handle)
     public var onMessage: ((PipecatClientIOS.RTVIMessageInbound) -> Void)?
     
-    public required init(options: PipecatClientIOS.RTVIClientOptions) {
+    public required init(options: PipecatClientIOS.RTVIClientOptions, videoRecorder: VideoRecorderDelegate) {
         self.options = options
         connection = GeminiLiveWebSocketConnection(options: options.webSocketConnectionOptions)
+        self.videoRecorder = videoRecorder
         connection.delegate = self
         audioPlayer.delegate = self
         audioRecorder.delegate = self
@@ -259,7 +260,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     private let audioManager = AudioManager()
     private let audioPlayer = AudioPlayer()
     private let audioRecorder = AudioRecorder()
-    private let videoRecorder = VideoRecorder()
+    private let videoRecorder: VideoRecorderDelegate
     private var connectedBotParticipant = Participant(
         id: ParticipantId(id: UUID().uuidString),
         name: "Gemini Multimodal Live",
