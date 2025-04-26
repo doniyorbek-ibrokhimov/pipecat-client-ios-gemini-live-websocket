@@ -57,7 +57,7 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
                 model: model,
                 generationConfig: .init(responseModalities: [.audio], speechConfig: .init(voiceConfig: .init(prebuiltVoiceConfig: .init(voiceName: "Puck")), languageCode: "es-US")),
                 systemInstruction: .init(parts: [
-                    .init(thought: false, text: "You are a fitness trainer, you receive image frames from the user, describe their actions realtime") //make it editable from the ui layer for debugging purposes
+                    .init(thought: false, text: "Continuously describe what you see") //make it editable from the ui layer for debugging purposes
                 ], role: "model")
             )
         )
