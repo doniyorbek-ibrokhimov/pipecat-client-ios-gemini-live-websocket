@@ -54,10 +54,6 @@ public class GeminiLiveWebSocketTransport: Transport {
         audioRecorder.stop()
         audioRecorder.terminateAudioStream()
         
-        // stop video input and terminate stream
-        videoRecorder.stop()
-        videoRecorder.terminateVideoStream()
-        
         // stop managing audio device configuration and reset mic bookkeeping
         audioManager.stopManaging()
         _selectedMic = nil
@@ -73,9 +69,6 @@ public class GeminiLiveWebSocketTransport: Transport {
         // this is done before connecting WebSocket to guarantee that by the time we transition to the .connected state isMicEnabled() reflects the truth
         if options.enableMic {
             try audioRecorder.resume()
-        }
-        if options.enableCam {
-            try videoRecorder.resume()
         }
         
         // start connecting
@@ -101,9 +94,6 @@ public class GeminiLiveWebSocketTransport: Transport {
         // stop audio input
         // (why not just pause it? to avoid problems in case the user forgets to call release() before instantiating a new voice client)
         audioRecorder.stop()
-        
-        // stop video input
-        videoRecorder.stop()
         
         // stop audio player
         audioPlayer.stop()
