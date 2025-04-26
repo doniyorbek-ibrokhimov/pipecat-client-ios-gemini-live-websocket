@@ -35,7 +35,7 @@ public class GeminiLiveWebSocketTransport: Transport {
         audioManager.startManagingIfNecessary()
         
         // start managing video device configuration
-        videomanager.startManagingIfNecessary()
+        videoManager.startManagingIfNecessary()
         
         // initialize devices state and report initial available & selected devices
         self._selectedMic = self.getSelectedMic()
