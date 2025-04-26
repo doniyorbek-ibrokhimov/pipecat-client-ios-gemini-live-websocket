@@ -139,6 +139,10 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
         )
     }
     
+    func sendUserVideo(_ video: Data) async throws {
+        //FIXME: implement
+    }
+    
     func sendMessage(message: Encodable) async throws {
         let encoder = JSONEncoder()
         

@@ -34,6 +34,9 @@ public class GeminiLiveWebSocketTransport: Transport {
         // start managing audio device configuration
         audioManager.startManagingIfNecessary()
         
+        // start managing video device configuration
+        videomanager.startManagingIfNecessary()
+        
         // initialize devices state and report initial available & selected devices
         self._selectedMic = self.getSelectedMic()
         self.delegate?.onAvailableMicsUpdated(mics: self.getAllMics());
@@ -41,6 +44,9 @@ public class GeminiLiveWebSocketTransport: Transport {
         
         // hook up audio input
         hookUpAudioInputStream()
+        
+        // hook up video input
+        hookUpVideoInputStream()
         
         self.setState(state: .initialized)
         self.devicesInitialized = true
@@ -248,6 +254,7 @@ public class GeminiLiveWebSocketTransport: Transport {
     private var _state: TransportState = .disconnected
     private let connection: GeminiLiveWebSocketConnection
     private let audioManager = AudioManager()
+    private let videoManager = VideoManager()
     private let audioPlayer = AudioPlayer()
     private let audioRecorder = AudioRecorder()
     private var connectedBotParticipant = Participant(
@@ -272,6 +279,10 @@ public class GeminiLiveWebSocketTransport: Transport {
                 }
             }
         }
+    }
+    
+    private func hookUpVideoInputStream() {
+        //FIXME: implement
     }
     
     private func logUnsupportedOptions() {
