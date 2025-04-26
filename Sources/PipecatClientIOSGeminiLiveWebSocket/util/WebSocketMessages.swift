@@ -117,6 +117,29 @@ enum WebSocketMessages {
             }
         }
         
-        //FIXME: implement VideoInput
+        //FIXME: + implement VideoInput
+        struct VideoInput: Encodable {
+            var realtimeInput: RealtimeInput
+            
+            struct RealtimeInput: Encodable {
+                var mediaChunks: [MediaChunk]
+                
+                struct MediaChunk: Encodable {
+                    var mimeType: String
+                    var data: String
+                }
+            }
+            
+            init(video: Data) {
+                realtimeInput = .init(
+                    mediaChunks: [
+                        .init(
+                            mimeType: "video/avc1.64001e;level=31;profile=66;framerate=30;width=1280;height=720",
+                            data: video.base64EncodedString()
+                        )
+                    ]
+                )
+            }
+        }
     }
 }
