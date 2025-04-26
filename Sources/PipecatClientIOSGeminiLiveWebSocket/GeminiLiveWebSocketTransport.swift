@@ -34,9 +34,6 @@ public class GeminiLiveWebSocketTransport: Transport {
         // start managing audio device configuration
         audioManager.startManagingIfNecessary()
         
-        // start managing video device configuration
-        videoManager.startManagingIfNecessary()
-        
         // initialize devices state and report initial available & selected devices
         self._selectedMic = self.getSelectedMic()
         self.delegate?.onAvailableMicsUpdated(mics: self.getAllMics());
@@ -270,7 +267,6 @@ public class GeminiLiveWebSocketTransport: Transport {
     private var _state: TransportState = .disconnected
     private let connection: GeminiLiveWebSocketConnection
     private let audioManager = AudioManager()
-    private let videoManager = VideoManager()
     private let audioPlayer = AudioPlayer()
     private let audioRecorder = AudioRecorder()
     private let videoRecorder = VideoRecorder()
