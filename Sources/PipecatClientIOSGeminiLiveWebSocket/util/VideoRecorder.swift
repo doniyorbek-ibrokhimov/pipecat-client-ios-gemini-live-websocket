@@ -10,10 +10,10 @@ import AVFoundation
 import UIKit
 
 protocol VideoRecorderDelegate: AnyObject {
-    func videoRecorder(_ videoRecorder: VideoRecorder, didGetFrameWithSize size: CGSize)
+    func videoRecorder(_ videoRecorder: VideoRecorder)
 }
 
-class VideoRecorder: NSObject{
+class VideoRecorder: NSObject {
     // MARK: - Public
     public weak var delegate: VideoRecorderDelegate?
 
@@ -100,14 +100,6 @@ class VideoRecorder: NSObject{
         }
     }
 
-    func adaptToDeviceChange() throws {
-        let wasRunning = captureSession?.isRunning ?? false
-        stop()
-        if wasRunning {
-            try resume()
-        }
-    }
-
     // MARK: - Private
     private var captureSession: AVCaptureSession?
     private var didSetup = false
@@ -126,7 +118,7 @@ extension VideoRecorder: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let jpegData = uiImage.jpegData(compressionQuality: 0.3) else { return }
 
         // Notify delegate about frame size (optional)
-        delegate?.videoRecorder(self, didGetFrameWithSize: uiImage.size)
+        delegate?.videoRecorder(self)
 
         // Only yield frames at appropriate intervals
 //        if Date().timeIntervalSince(lastFrameSent) >= minFrameInterval {

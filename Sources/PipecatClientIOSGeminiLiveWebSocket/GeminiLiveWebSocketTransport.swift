@@ -360,11 +360,6 @@ public class GeminiLiveWebSocketTransport: Transport {
         } catch {
             Logger.shared.error("Audio recorder failed to adapt to device change")
         }
-        do {
-            try videoRecorder.adaptToDeviceChange()
-        } catch {
-            Logger.shared.error("Video recorder failed to adapt to device change")
-        }
     }
     
     // updates tracks.
