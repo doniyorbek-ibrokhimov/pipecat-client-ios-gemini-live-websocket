@@ -19,14 +19,15 @@ enum WebSocketMessages {
             var serverContent: ServerContent
             
             func audioBytes() -> Data? {
-                guard let part = serverContent.modelTurn.parts.first else {
+                guard let part = serverContent.modelTurn?.parts.first else {
                     return nil
                 }
                 return Data(base64Encoded: part.inlineData.data)
             }
             
             struct ServerContent: Decodable {
-                var modelTurn: ModelTurn
+                var modelTurn: ModelTurn?
+                var outputTranscription: OutputTranscription?
                 
                 struct ModelTurn: Decodable {
                     var parts: [Part]
@@ -38,6 +39,10 @@ enum WebSocketMessages {
                             var data: String
                         }
                     }
+                }
+                
+                struct OutputTranscription: Decodable {
+                    var text: String
                 }
             }
         }

@@ -74,7 +74,9 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
                     
                     switch message {
                     case .data(let data):
-//                        print("received server message: \(String(data: data, encoding: .utf8)?.prefix(50))")
+                        //                        print("received server message: \(String(data: data, encoding: .utf8)?.prefix(50))")
+                      
+//                        data.printPrettyJSON()
                         
                         // Check for setup complete message
                         let setupCompleteMessage = try? decoder.decode(
@@ -91,6 +93,12 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
                             WebSocketMessages.Inbound.AudioOutput.self,
                             from: data
                         )
+                        
+//                        if let audioOutputMessage {
+//                            print("Received audio transcription")
+//                            print(audioOutputMessage.serverContent.outputTranscription?.text)
+//                        }
+                        
                         if let audioOutputMessage, let audioBytes = audioOutputMessage.audioBytes() {
                             delegate?.connection(
                                 self,
