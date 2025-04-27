@@ -55,7 +55,7 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
         try await sendMessage(
             message: WebSocketMessages.Outbound.Setup(
                 model: model,
-                generationConfig: .init(responseModalities: [.audio], speechConfig: .init(voiceConfig: .init(prebuiltVoiceConfig: .init(voiceName: "Aoede")), languageCode: "es-US")),
+                generationConfig: .init(responseModalities: [.audio], speechConfig: .init(voiceConfig: .init(prebuiltVoiceConfig: .init(voiceName: "Aoede")), languageCode: "en-US")),
                 systemInstruction: .init(parts: [
                     .init(thought: false, text: "Continuously describe what you see") //make it editable from the ui layer for debugging purposes
                 ], role: "model")
