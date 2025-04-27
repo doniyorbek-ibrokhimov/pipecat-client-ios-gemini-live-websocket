@@ -24,7 +24,8 @@ class AudioRecorder {
         // Setup the audio engine for recording
         audioEngine = AVAudioEngine()
         try audioEngine.inputNode.setVoiceProcessingEnabled(true) // important for ignoring output from the phone itself
-        let inputNode = audioEngine.inputNode
+        let inputNode = audioEngine.inputNode //error: AURemoteIO.cpp:1091  failed: -66635 (enable 3, outf< 1 ch,      0 Hz, Float32> inf< 1 ch,      0 Hz, Float32>)
+
         // Hmm, we really *should* be using inputNode.outputFormat, but for some reason after disconnecting then the voice cclient outputFormat reports 0hz sample rate, even though it *does* work (installing the tap works).
         // Some post suggests using the input format instead of the output one? https://stackoverflow.com/a/47902479
         let inputFormat = inputNode.inputFormat(forBus: 0)
@@ -69,7 +70,7 @@ class AudioRecorder {
         }
         
         // Now start the engine
-        try audioEngine.start()
+        try audioEngine.start() //error: throwing -1
         
         didSetup = true
     }
