@@ -199,6 +199,10 @@ public class GeminiLiveWebSocketTransport: Transport {
         }
     }
     
+    public func sendMessage(message: Encodable) async throws {
+        try await connection.sendMessage(message: message)
+    }
+    
     public func state() -> PipecatClientIOS.TransportState {
         self._state
     }
