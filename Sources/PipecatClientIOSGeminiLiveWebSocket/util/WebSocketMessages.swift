@@ -68,16 +68,6 @@ enum WebSocketMessages {
             }
         }
         
-        struct Content: Encodable {
-            let parts: [Part]
-            let role: String
-            
-            struct Part: Encodable {
-                let thought: Bool
-                let text: String
-            }
-        }
-        
         struct GenerationConfig: Encodable {
             
             /*
@@ -156,6 +146,16 @@ enum WebSocketMessages {
                         let voiceName: String
                     }
                 }
+            }
+        }
+        
+        struct Content: Encodable {
+            let parts: [Part]
+            let role: String
+            
+            struct Part: Encodable {
+                let thought: Bool
+                let text: String
             }
         }
         

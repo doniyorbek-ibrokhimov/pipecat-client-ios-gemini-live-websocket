@@ -13,9 +13,9 @@ public class GeminiLiveWebSocketTransport: Transport {
     /// RTVI inbound message handler (for sending RTVI-style messages to voice client code to handle)
     public var onMessage: ((PipecatClientIOS.RTVIMessageInbound) -> Void)?
     
-    public required init(options: PipecatClientIOS.RTVIClientOptions, videoRecorder: VideoRecorderDelegate) {
+    public required init(options: PipecatClientIOS.RTVIClientOptions, videoRecorder: VideoRecorderDelegate, modelConfig: Encodable, apiKey: String) {
         self.options = options
-        connection = GeminiLiveWebSocketConnection(options: options.webSocketConnectionOptions)
+        connection = GeminiLiveWebSocketConnection(options: .init(apiKey: apiKey, config: modelConfig))
         self.videoRecorder = videoRecorder
         connection.delegate = self
         audioPlayer.delegate = self

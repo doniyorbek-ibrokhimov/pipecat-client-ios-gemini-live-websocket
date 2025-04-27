@@ -1,13 +1,12 @@
 import PipecatClientIOS
 
 extension RTVIClientOptions {
-    var webSocketConnectionOptions: GeminiLiveWebSocketConnection.Options {
-        let config = config ?? params.config
-        return .init(
-            apiKey: config.apiKey ?? "",
-            generationConfig: config.generationConfig
-        )
-    }
+//    var webSocketConnectionOptions: GeminiLiveWebSocketConnection.Options {
+//        let config = config ?? params.config
+//        return .init(
+//            apiKey: config.apiKey ?? ""
+//        )
+//    }
 }
 
 extension [ServiceConfig] {

@@ -18,7 +18,7 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
     
     struct Options {
         let apiKey: String
-        let generationConfig: Value?
+        let config: Encodable
     }
     
     public weak var delegate: GeminiLiveWebSocketConnectionDelegate? = nil
@@ -51,15 +51,15 @@ class GeminiLiveWebSocketConnection: NSObject, URLSessionWebSocketDelegate {
         socket.resume()
         
         // Send initial setup message
-        let model = "models/gemini-2.0-flash-live-001" // TODO: make this configurable someday
+//        let model = "models/gemini-2.0-flash-live-001" // TODO: make this configurable someday
         try await sendMessage(
-            message: WebSocketMessages.Outbound.Setup(
-                model: model,
-                generationConfig: .init(responseModalities: [.audio], speechConfig: .init(voiceConfig: .init(prebuiltVoiceConfig: .init(voiceName: "Aoede")), languageCode: "en-US")),
-                systemInstruction: .init(parts: [
-                    .init(thought: false, text: "Continuously describe what you see") //make it editable from the ui layer for debugging purposes
-                ], role: "model")
-            )
+            message: options.config
+                
+//                WebSocketMessages.Outbound.Setup(
+//                model: model,
+//                generationConfig: options.generationConfig, //.init(responseModalities: [.audio], speechConfig: .init(voiceConfig: .init(prebuiltVoiceConfig: .init(voiceName: "Aoede")), languageCode: "en-US")),
+//                systemInstruction: options.systemInstructions //.init(parts: [ .init(thought: false, text: "Continuously describe what you see") //make it editable from the ui layer for debugging purposes ], role: "model")
+//            )
         )
         try Task.checkCancellation()
         
