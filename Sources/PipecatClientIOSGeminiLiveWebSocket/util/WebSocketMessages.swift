@@ -110,6 +110,7 @@ enum WebSocketMessages {
             
             let responseModalities: [Modality]
             let speechConfig: SpeechConfig
+            let temperature: Double
             
             enum Modality: String, RawRepresentable, Codable {
                 case audio = "AUDIO"
